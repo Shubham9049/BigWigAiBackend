@@ -102,7 +102,7 @@ webpToImages,optimizeSEO,improveSEOContent,auditSEO,generateGoogleAd,splitPdf,wa
 videoThumbnail,videoToArticle,genrateYoutubeShortsCaption,generatePodcastIntroduction,generatePodcastConclusion
 ,GenerateformatPressRelease,GenerateNewsletterSubjectLine,background,generateBlogIntroduction,generateBlogPostConclusion,videoConvertion,
 generateArticleConclusion,generateArticleIntroduction,AudioMerge,podcastNewsletter,VideoWatermark,AddLogoToImage,
-generateSnapchatPost,subtitleGenerator
+generateSnapchatPost,subtitleGenerator,generatePrompt
 
 
 } = require("../../controllers/response.controllers");
@@ -247,6 +247,7 @@ router.post('/generateReelScript',checkLimit, generateReelScript);
 router.post('/generateReelIdeas',checkLimit, generateReelIdeas);
 router.post('/generateAboutCompanyPage',checkLimit, generateAboutCompanyPage);
 router.post('/generateTweetReply',checkLimit, generateTweetReply);
+router.post('/imagePrompt',checkLimit, generatePrompt);
 router.post('/generateSocialMediaPost',checkLimit, generateSocialMediaPost);
 router.post('/generateBulletPoints',checkLimit, generateBulletPoints);
 router.post('/generateBulletPoints',checkLimit, generateBulletPoints);

@@ -2673,11 +2673,29 @@ exports.generateTweetReply = async (req, res) => {
 };
 
 // ------------Social Media Post Generator---------
+
+const { generatePromptContent } = require('../utils.js/PromptGenerator');
+
+exports.generatePrompt = async (req, res) => {
+    try {
+        const { imageDescription, promptCount } = req.body;
+        if (!imageDescription) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const prompts = await generatePromptContent(imageDescription, promptCount);
+
+        res.status(200).json(prompts);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Error generating prompts' });
+    }
+};
 const {generatePost} = require("../utils.js/socialMediaPostGenerator")
 
 exports.generateSocialMediaPost = async (req, res) => {
   try {
-      const { platform, description, tone, language, outputCount, includeEmoji, includeHashtag, generateImage } = req.body;
+      const { platform, description, tone, language, outputCount, includeEmoji, includeHashtag,imagePrompt } = req.body;
 
       // Check for required fields
       if (!platform || !description || !tone || !language || !outputCount) {
@@ -2686,22 +2704,12 @@ exports.generateSocialMediaPost = async (req, res) => {
 
       // Generate social media posts
       const socialMediaPosts = await generatePost(platform, description, tone, language, outputCount, includeEmoji, includeHashtag);
-
       let imageUrl = null;
 
-      // Conditionally generate image if requested
-      if (generateImage === true || generateImage === 'true') {
-          try {
-              const imageResponse = await generateImageFromPrompt(description); // Assuming topic is used as the prompt
-              imageUrl = imageResponse === 'Failed to generate image' ? null : imageResponse.url;
-          } catch (err) {
-              console.error('Error generating image:', err);
-              imageUrl = null; // Fallback if image generation fails
-          }
-      }
-
+      const imageResponse = await generateImageFromPrompt(imagePrompt);
+      imageUrl = imageResponse === 'Failed to generate image' ? null : imageResponse.url;
       // Return the generated posts along with the image URL if generated
-      res.status(200).json({ posts: socialMediaPosts, imageUrl });
+      res.status(200).json({ posts: socialMediaPosts,imageUrl  });
   } catch (error) {
       console.error('Error generating social media post:', error);
       res.status(500).json({ error: 'Error generating social media post' });
