@@ -1,7 +1,7 @@
 const { getResponse,
-   getParaPhrase,
-    getImage,
-    generateLogo 
+  getParaPhrase,
+   getImage,
+   generateLogo 
 ,JpgtoPngconverter
 ,pngtojpgcoverter
 ,getSpecialtool
@@ -102,7 +102,7 @@ webpToImages,optimizeSEO,improveSEOContent,auditSEO,generateGoogleAd,splitPdf,wa
 videoThumbnail,videoToArticle,genrateYoutubeShortsCaption,generatePodcastIntroduction,generatePodcastConclusion
 ,GenerateformatPressRelease,GenerateNewsletterSubjectLine,background,generateBlogIntroduction,generateBlogPostConclusion,videoConvertion,
 generateArticleConclusion,generateArticleIntroduction,AudioMerge,podcastNewsletter,VideoWatermark,AddLogoToImage,
-generateSnapchatPost,subtitleGenerator,generatePrompt
+generateSnapchatPost,subtitleGenerator
 
 
 } = require("../../controllers/response.controllers");
@@ -117,51 +117,51 @@ const upload = multer({ dest: 'uploads/' }); // Destination folder for uploaded 
 
 // Set up Multer for handling file uploads
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-      cb(null, file.originalname);
-  }
+ destination: function (req, file, cb) {
+     cb(null, 'uploads/');
+ },
+ filename: function (req, file, cb) {
+     cb(null, file.originalname);
+ }
 });
 const uploadfile = multer({ storage: storage });
 
 const storage2 = multer.diskStorage({
-    destination: './uploads/',
-    filename: (req, file, cb) => {
-      cb(null,file.originalname);
-    }
-  });
-  
-  // Initialize upload variable
-  const uploadbackgroundimage = multer({
-    storage: storage2,
-    limits: { fileSize: 9000000 }, // Limit file size to 9MB
-  });
-  
-
-  const uploadBack = multer({
-    storage: multer.diskStorage({
-      destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-      },
-      filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Set a unique file name
-      }
-    }),
-    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB size limit
-    fileFilter: (req, file, cb) => {
-      const filetypes = /png/;
-      const mimetype = filetypes.test(file.mimetype);
-      const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  
-      if (mimetype && extname) {
-        return cb(null, true);
-      }
-      cb(new Error('Only PNG images are allowed!'));
-    }
-  });
+   destination: './uploads/',
+   filename: (req, file, cb) => {
+     cb(null,file.originalname);
+   }
+ });
  
+ // Initialize upload variable
+ const uploadbackgroundimage = multer({
+   storage: storage2,
+   limits: { fileSize: 9000000 }, // Limit file size to 9MB
+ });
+ 
+
+ const uploadBack = multer({
+   storage: multer.diskStorage({
+     destination: (req, file, cb) => {
+       cb(null, 'uploads/');
+     },
+     filename: (req, file, cb) => {
+       cb(null, Date.now() + path.extname(file.originalname)); // Set a unique file name
+     }
+   }),
+   limits: { fileSize: 4 * 1024 * 1024 }, // 4MB size limit
+   fileFilter: (req, file, cb) => {
+     const filetypes = /png/;
+     const mimetype = filetypes.test(file.mimetype);
+     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+ 
+     if (mimetype && extname) {
+       return cb(null, true);
+     }
+     cb(new Error('Only PNG images are allowed!'));
+   }
+ });
+
 
 
 router.post("/", checkLimit, getResponse);
@@ -247,7 +247,6 @@ router.post('/generateReelScript',checkLimit, generateReelScript);
 router.post('/generateReelIdeas',checkLimit, generateReelIdeas);
 router.post('/generateAboutCompanyPage',checkLimit, generateAboutCompanyPage);
 router.post('/generateTweetReply',checkLimit, generateTweetReply);
-router.post('/imagePrompt',checkLimit, generatePrompt);
 router.post('/generateSocialMediaPost',checkLimit, generateSocialMediaPost);
 router.post('/generateBulletPoints',checkLimit, generateBulletPoints);
 router.post('/generateBulletPoints',checkLimit, generateBulletPoints);
