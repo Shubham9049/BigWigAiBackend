@@ -12,6 +12,8 @@ const potrace = require('potrace');
 const archiver = require('archiver');
 const getSummary=require("../utils.js/getSummary");
 const AdmZip = require('adm-zip');
+const { spotifyDl } = require("nayan-videos-downloader");
+
 
 
 
@@ -7180,3 +7182,17 @@ exports.subtitleGenerator=async(req,res)=>{
   res.status(500).send(`An error occurred: ${error.message}`);
   }
 };
+
+exports.SportifyDown=async(req,res)=>{
+  try {
+    const { url } = req.body;
+    if (!url) return res.status(400).json({ error: "Spotify URL is required" });
+
+    // Fetch Spotify download link
+    let downloadURL = await spotifyDl(url);
+    res.json({ downloadURL });
+} catch (error) {
+    console.error("Error fetching Spotify download link:", error);
+    res.status(500).json({ error: "Failed to download Spotify audio" });
+}
+}
