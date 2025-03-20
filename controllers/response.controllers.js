@@ -13,6 +13,8 @@ const archiver = require('archiver');
 const getSummary=require("../utils.js/getSummary");
 const AdmZip = require('adm-zip');
 const { spotifyDl } = require("nayan-videos-downloader");
+const { soundcloud } = require("nayan-videos-downloader");
+
 
 
 
@@ -7195,4 +7197,18 @@ exports.SportifyDown=async(req,res)=>{
     console.error("Error fetching Spotify download link:", error);
     res.status(500).json({ error: "Failed to download Spotify audio" });
 }
+}
+
+exports.soundcloud=async(req,res)=>{
+  try {
+    const {url}=req.body
+    if(!url){
+      res.status(400).json({ error: "soundcloud URL is required" })
+    }
+    let downloadURL=await soundcloud(url);
+    res.json({downloadURL})
+  } catch (error) {
+    console.error("Error fetching soundcloud download link:", error);
+    res.status(500).json({ error: "Failed to download soundcloud audio" });
+  }
 }
