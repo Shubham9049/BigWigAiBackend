@@ -102,7 +102,7 @@ webpToImages,optimizeSEO,improveSEOContent,auditSEO,generateGoogleAd,splitPdf,wa
 videoThumbnail,videoToArticle,genrateYoutubeShortsCaption,generatePodcastIntroduction,generatePodcastConclusion
 ,GenerateformatPressRelease,GenerateNewsletterSubjectLine,background,generateBlogIntroduction,generateBlogPostConclusion,videoConvertion,
 generateArticleConclusion,generateArticleIntroduction,AudioMerge,podcastNewsletter,VideoWatermark,AddLogoToImage,
-generateSnapchatPost,subtitleGenerator,SportifyDown
+generateSnapchatPost,subtitleGenerator,SportifyDown,generateHRPolicy
 
 
 } = require("../../controllers/response.controllers");
@@ -389,4 +389,5 @@ router.post('/overlayImage',upload.fields([{ name: 'image' }, { name: 'logo' }])
 router.post('/generateSnapchatPost',checkLimit, generateSnapchatPost);
 router.post('/subtitle',upload.single('video'), subtitleGenerator)
 router.post('/sportifydown',checkLimit,SportifyDown)
+router.post('/generateHRPolicy',checkLimit, generateHRPolicy);
 module.exports = router;

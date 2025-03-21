@@ -3019,7 +3019,7 @@ exports.generateReviewResponse = async (req, res) => {
     }
 };
 // ------Job Description Generator---------
-const { generateJobDescriptionUtil } = require('../utils.js/jobDescription');
+const { generateJobDescriptionUtil, generateHRPolicyUtil } = require('../utils.js/jobDescription');
 
 exports.generateJobDescription = async (req, res) => {
     try {
@@ -7198,3 +7198,24 @@ exports.SportifyDown=async(req,res)=>{
     res.status(500).json({ error: "Failed to download Spotify audio" });
 }
 }
+
+
+// ----------------------HR Policy Generator-----------------------
+
+exports.generateHRPolicy = async (req, res) => {
+    try {
+        const { policyType, companyName, industry, policyDetails, tone, language, outputCount } = req.body;
+
+        if (!policyType || !companyName || !policyDetails || !tone || !language || !outputCount) {
+            return res.status(400).json({ error: 'Please provide all required fields: policyType, companyName, policyDetails, tone, language, outputCount' });
+        }
+
+        const hrPolicies = await generateHRPolicyUtil(policyType, companyName, industry, policyDetails, tone, language, outputCount);
+
+        res.status(200).json(hrPolicies);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Error generating HR policies' });
+    }
+};
+
