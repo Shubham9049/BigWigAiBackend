@@ -6251,14 +6251,14 @@ pages.forEach(page => {
 
 exports.seoCompetitorAnalysis = async (req, res) => {
   try {
-      const { competitorUrls, language, outputCount } = req.body;
+      const { competitorUrls,targetKeywords, language, outputCount } = req.body;
 
       // Validate input
-      if (!competitorUrls || competitorUrls.length === 0) {
+      if (!competitorUrls) {
           return res.status(400).json({ error: 'Please provide competitor URLs for analysis' });
       }
 
-      const analysisResults = await generateCompetitorAnalysis(competitorUrls, language, outputCount);
+      const analysisResults = await generateCompetitorAnalysis(competitorUrls,targetKeywords, language, outputCount);
 
       res.status(200).json(analysisResults);
   } catch (error) {

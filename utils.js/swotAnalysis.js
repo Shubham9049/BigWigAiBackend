@@ -141,22 +141,32 @@ async function generateSEOAudit(content, language, outputCount) {
 }
 
 
-async function generateCompetitorAnalysis(competitorUrls, language, outputCount) {
+async function generateCompetitorAnalysis(competitorUrls, targetKeywords, language, outputCount) {
     let responses = [];
 
     try {
         for (let i = 0; i < outputCount; i++) {
+            const messages = [
+                {
+                    role: 'system',
+                    content: `You are an SEO expert. Analyze the SEO strategies of the following competitors and provide detailed insights for improvement. The analysis should be done in ${language}.`
+                },
+                {
+                    role: 'user',
+                    content: `Competitor URLs:\n\n${competitorUrls}`
+                }
+            ];
+
+            // Include target keywords if provided
+            if (targetKeywords && targetKeywords.length > 0) {
+                messages.push({
+                    role: 'user',
+                    content: `Additionally, analyze how these competitors are performing for the following keywords: ${targetKeywords.join(', ')}`
+                });
+            }
+
             const completion = await openai.chat.completions.create({
-                messages: [
-                    {
-                        role: 'system',
-                        content: `You are an SEO expert. Analyze the SEO strategies of the following competitors and provide detailed insights for improvement. The analysis should be done in ${language}.`
-                    },
-                    {
-                        role: 'user',
-                        content: `Competitor URLs:\n\n${competitorUrls.join('\n')}`
-                    }
-                ],
+                messages,
                 model: 'gpt-4'
             });
 
@@ -164,16 +174,17 @@ async function generateCompetitorAnalysis(competitorUrls, language, outputCount)
                 throw new Error('Invalid completion response');
             }
 
-            // Push the generated SEO competitor analysis into the response array
+            // Store the response
             responses.push(completion.choices[0].message.content.trim());
         }
 
         return responses;
     } catch (error) {
         console.error('Error generating competitor analysis:', error);
-        return 'Failed to generate SEO competitor analysis';
+        return ['Failed to generate SEO competitor analysis'];
     }
 }
+
 
 // Summarization function to limit text to 50 words
 async function ArticleSummarize(text) {
